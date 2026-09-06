@@ -42,8 +42,9 @@ try {
   const consumerDir = path.join(tempRoot, 'consumer')
   await Promise.all([mkdir(packDir), mkdir(consumerDir)])
 
+  // Run prepack while keeping lifecycle output out of npm's JSON response.
   const { stdout } = await runNpm(
-    ['pack', '--json', '--ignore-scripts', '--pack-destination', packDir],
+    ['pack', '--json', '--foreground-scripts=false', '--pack-destination', packDir],
     packageRoot
   )
   const [packResult] = JSON.parse(stdout)
